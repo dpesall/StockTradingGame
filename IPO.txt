@@ -8,3 +8,8 @@ Pepsi/PEP/109/7
 Google/GOOG/1042/11
 Goldman Sachs Group/GS/243/11
 3M/MMM/299/17
+Apple/AAPL/216/8
+Facebook/FB/145/11
+Oracle/ORCL/47/5
+Netflix/NFLX/299/27
+JP Morgan/JPM/103/4

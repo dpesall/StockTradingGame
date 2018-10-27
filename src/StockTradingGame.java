@@ -23,7 +23,7 @@ public class StockTradingGame {
 		}
 		Portfolio portfolioTemp[] = new Portfolio[lineCount];
 		Stocks stocksTemp[] = new Stocks[lineCount];
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < lineCount; i++) {
 			String line = reader2.nextLine();
 			String[] info = line.split("/");
 			String name = info[0];
@@ -34,6 +34,9 @@ public class StockTradingGame {
 			StocksList.add(stocksTemp[i]);
 			stockPortfolio.add(new Portfolio(name, symbol, 0));
 		}
+		//System.out.println();
+		//System.out.println();
+		//System.out.println();
 		nextDay(StocksList);
 		while(playGame) {
 			System.out.printf("Day: %d - Balance: $%.2f\n1. Next Day\n2. View Accounts\n3. Buy/Sell\n4. Exit\n5. Admin Settings\nEnter an option: ", day, wallet.getBalance());
@@ -170,7 +173,7 @@ public class StockTradingGame {
 		boolean inAccounts = true;
 		float balance = wallet.getBalance();
 		while(inAccounts) {
-			System.out.printf("\nBalance: $%.2f \n1. View Stocks\n2.Check Portfolio Value\n3.Back\nEnter an option: ", balance);
+			System.out.printf("\nBalance: $%.2f \n1. View Stocks\n2. Check Portfolio Value\n3. Back\nEnter an option: ", balance);
 			int option = Input.getIntRange(1, 3);
 			switch(option) {
 			case 1:
