@@ -34,12 +34,9 @@ public class StockTradingGame {
 			StocksList.add(stocksTemp[i]);
 			stockPortfolio.add(new Portfolio(name, symbol, 0));
 		}
-		//System.out.println();
-		//System.out.println();
-		//System.out.println();
 		nextDay(StocksList);
 		while(playGame) {
-			System.out.printf("Day: %d - Balance: $%.2f\n1. Next Day\n2. View Accounts\n3. Buy/Sell\n4. Exit\n5. Admin Settings\nEnter an option: ", day, wallet.getBalance());
+			System.out.printf("\nDay: %d - Balance: $%.2f\n1. Next Day\n2. View Accounts\n3. Buy/Sell\n4. Exit\n5. Admin Settings\nEnter an option: ", day, wallet.getBalance());
 			int option = Input.getIntRange(1,5);
 			switch(option) {
 				case 1:
@@ -235,11 +232,12 @@ public class StockTradingGame {
 		if(granted) {
 			boolean editting = true;
 			while(editting) {
-				System.out.print("1. Empty\n2. Edit Balance\n3. Edit Portfolio\n4. Exit\nEnter your choice: ");
+				System.out.print("1. Add/Remove Stocks\n2. Edit Balance\n3. Edit Portfolio\n4. Exit\nEnter your choice: ");
 				int choice = Input.getIntRange(1, 4);
 				
 				switch(choice) {
 					case 1:
+						addStocks(StocksList, wallet, stockPortfolio);
 						break;
 					case 2:
 						float currentBalance = wallet.getBalance();
@@ -259,10 +257,15 @@ public class StockTradingGame {
 							}
 							System.out.printf("%-20s %-5s   %-5d owned    value: $%10.2f\n",a.getName(), a.getSymbol(), a.getAmount(),(Float) (a.getAmount() * temp.getValue()));
 						}
-						System.out.print("Enter the symbol of the stock quantity you would like to modify: ");
+						System.out.print("Enter the symbol of the stock quantity you would like to modify, or type 'back' to return: ");
 						boolean foundSymbol = false;
+						boolean goBack = false;
 						while(!foundSymbol) {
 							String editStock = Input.getString();
+							if(editStock.equalsIgnoreCase("back")) {
+								goBack = !goBack;
+								break;
+							}
 							for(Stocks c : StocksList) {
 								if(c.getSymbol().equalsIgnoreCase(editStock)) {
 									temp = c;
@@ -272,6 +275,9 @@ public class StockTradingGame {
 							if(!foundSymbol) {
 								System.out.print("Stock not found, please try again: ");
 							}
+						}
+						if(goBack) {
+							break;
 						}
 						for(Portfolio d : stockPortfolio) {
 							if(temp.getSymbol().equalsIgnoreCase(d.getSymbol())) {
@@ -297,5 +303,66 @@ public class StockTradingGame {
 		
 		System.out.println();
 	}
+	private static void addStocks(ArrayList<Stocks> StocksList, Wallet wallet, ArrayList<Portfolio> stockPortfolio) {
+		boolean addStock = true;
+		while(addStock) {
+			System.out.print("\n1. Add stock\n2. Remove Stock\n3. Back\nEnter an option: ");
+			int choice = Input.getIntRange(1, 3);
+			switch(choice) {
+			case 1:
+				String name = "";
+				String symbol = "";
+				float startingPrice = 0;
+				int volatility = 0;
+				System.out.print("Enter the name of the stock: ");
+				name = Input.getString();
+				System.out.print("Enter the symbol of the stock: ");
+				symbol = Input.getString();
+				System.out.print("Enter the starting price of the stock: ");
+				startingPrice = Input.getFloatRange(0, MAX_FLOAT);
+				System.out.print("Enter the volatiliy of the stock: ");
+				volatility = Input.getIntAboveZero();
+				
+				Stocks temp = new Stocks(name, symbol, startingPrice, volatility);
+				StocksList.add(temp);
+				stockPortfolio.add(new Portfolio(name, symbol, 0));
+				break;
+			case 2:
+				System.out.println();
+				for(Stocks a : StocksList) {
+					System.out.printf("%-20s %-5s: $%8.2f    %5.2f%s \n",a.getName(), a.getSymbol(), a.getValue(), a.getVar() * 100,"%");
+				}
+				boolean validEntry = false;
+				String removeThis = "";
+				while(!validEntry) {
+					System.out.print("\nEnter the symbol of the stock you would like removed, or type 'back' to return: ");
+					removeThis = Input.getStringSingle();
+					if(removeThis.equalsIgnoreCase("back")) {
+						validEntry = !validEntry;
+					} else {
+						for(Stocks a : StocksList) {
+							String symb = a.getSymbol();
+							if(symb.equalsIgnoreCase(removeThis)) {
+								StocksList.remove(a);
+								for(Portfolio b : stockPortfolio) {
+									if(a.getSymbol().equalsIgnoreCase(b.getSymbol())) {
+										stockPortfolio.remove(b);
+										break;
+									}
+								}
+								validEntry = !validEntry;
+								break;
+							}
+						}
+					}
+				}
+				break;
+			case 3:
+				addStock = !addStock;
+				break;
+			}
+		}
+	}
+	
 	
 }

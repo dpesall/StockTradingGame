@@ -127,7 +127,7 @@ public class Input {
 		return input;
 	}
 
-	public static float getFloatRange(int minimum, int max) {
+	public static float getFloatRange(float minimum, float max) {
 		float input = 0;
 		String inputS = null;
 		boolean isValid = false;
@@ -153,7 +153,7 @@ public class Input {
 		return input;
 	}
 
-	public static double getDoubleRange(int minimum, int max) {
+	public static double getDoubleRange(double minimum, double max) {
 		double input = 0;
 		String inputS = null;
 		boolean isValid = false;
