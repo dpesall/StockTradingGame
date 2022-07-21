@@ -29,7 +29,7 @@ public class Input {
 		}
 		return input;
 	}
-
+  //This will be second commit stuff
 	public static String getStringSingle() {
 		boolean isValid = false;
 		String input = null;
